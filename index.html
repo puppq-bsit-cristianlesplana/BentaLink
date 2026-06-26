@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>BentaLink — Find it nearby. Sell it locally.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ============================================================
+     SITE HEADER — persistent across every screen except the
+     logged-out welcome/landing page and auth pages.
+     ============================================================ -->
+<header class="site-header" id="site-header">
+  <div class="site-header__inner">
+    <a class="brand" data-nav="home" href="#/home">
+      <svg width="28" height="28" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <path d="M20 3 L36 14 V35 H4 V14 Z" stroke="#1F4D3D" stroke-width="2.5" fill="#FF6B4A" fill-opacity="0.18" stroke-linejoin="round"/>
+      </svg>
+      <span>BentaLink</span>
+    </a>
+
+    <nav class="site-nav" id="site-nav">
+      <button class="site-nav__link" data-nav="home">Home</button>
+      <button class="site-nav__link" data-nav="browse">Browse</button>
+      <button class="site-nav__link" data-nav="saved">Saved</button>
+      <button class="site-nav__link" id="site-nav-inbox">
+        Messages<span class="site-nav__badge" id="site-nav-badge" hidden></span>
+      </button>
+    </nav>
+
+    <div class="site-header__actions">
+      <button class="btn btn--forest btn--sm" data-nav="post">
+        <span data-icon="plus"></span> Post an item
+      </button>
+      <button class="btn btn--ghost btn--sm" id="site-admin-btn" data-nav="admin">
+        <span data-icon="shieldCheck"></span> Admin
+      </button>
+      <button class="btn btn--ghost btn--sm site-notification-btn" id="site-notifications-btn" data-nav="notifications">
+        <span data-icon="bell"></span> Notifications<span class="site-nav__badge" hidden></span>
+      </button>
+      <button class="avatar-btn" id="site-avatar-btn" data-nav="profile" aria-label="Profile">
+        <span id="site-avatar-initials">?</span>
+      </button>
+      <div class="auth-actions" id="auth-actions">
+        <button class="btn btn--ghost btn--sm" data-nav="signin">Log in</button>
+        <button class="btn btn--coral btn--sm" data-nav="signup">Sign up</button>
+      </div>
+      <button class="hamburger" id="hamburger-btn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile drop-down menu -->
+  <div class="mobile-menu" id="mobile-menu">
+    <button class="mobile-menu__link" data-nav="home">Home</button>
+    <button class="mobile-menu__link" data-nav="browse">Browse</button>
+    <button class="mobile-menu__link" data-nav="post">Post an item</button>
+    <button class="mobile-menu__link" data-nav="trade">Trade item</button>
+    <button class="mobile-menu__link" data-nav="saved">Saved items</button>
+    <button class="mobile-menu__link" id="mobile-menu-inbox">Messages</button>
+    <button class="mobile-menu__link" id="mobile-menu-notifications">Notifications</button>
+    <button class="mobile-menu__link" data-nav="admin" id="mobile-menu-admin">Admin dashboard</button>
+    <button class="mobile-menu__link" data-nav="profile">Profile</button>
+    <div class="mobile-menu__divider" id="mobile-menu-auth-divider"></div>
+    <div class="mobile-menu__auth" id="mobile-menu-auth">
+      <button class="btn btn--ghost btn--block" data-nav="signin">Log in</button>
+      <button class="btn btn--coral btn--block" data-nav="signup">Sign up</button>
+    </div>
+  </div>
+</header>
+
+<main class="site-main" id="site-main">
+
+  <!-- ============ WELCOME / LANDING (logged out) ============ -->
+  <section class="screen" id="screen-welcome">
+    <div class="landing-hero">
+      <div class="landing-hero__copy">
+        <p class="eyebrow">Your Community Market</p>
+        <h1 class="font-fraunces landing-hero__headline">Find it nearby.<br>Sell it locally.</h1>
+        <p class="landing-hero__sub">No clutter, no random posts — just items and services for sale, from people near you.</p>
+        <div class="landing-hero__actions">
+          <button class="btn btn--coral btn--lg" data-nav="browse">Browse items</button>
+          <button class="btn btn--forest btn--lg" data-nav="signup">Create a free account</button>
+        </div>
+        <p class="landing-hero__fineprint">Already have an account? <button data-nav="signin">Log in</button></p>
+      </div>
+      <div class="landing-hero__art">
+        <svg width="100%" height="100%" viewBox="0 0 480 420" fill="none" preserveAspectRatio="xMidYMid meet">
+          <path d="M0 340 Q240 280 480 340 V420 H0 Z" fill="#F0E9DD"/>
+          <rect x="50" y="230" width="60" height="110" rx="3" fill="#FBF8F3" stroke="#1F4D3D" stroke-width="2.5"/>
+          <rect x="64" y="250" width="14" height="14" fill="#1F4D3D" opacity="0.5"/>
+          <rect x="84" y="250" width="14" height="14" fill="#1F4D3D" opacity="0.5"/>
+          <rect x="64" y="274" width="14" height="14" fill="#1F4D3D" opacity="0.5"/>
+          <path d="M170 250 L210 210 L250 250 V335 H170 Z" fill="#FBF8F3" stroke="#1F4D3D" stroke-width="2.5" stroke-linejoin="round"/>
+          <rect x="200" y="290" width="26" height="45" fill="#FF6B4A" opacity="0.55"/>
+          <rect x="270" y="180" width="46" height="160" rx="3" fill="#FBF8F3" stroke="#1F4D3D" stroke-width="2.5"/>
+          <rect x="282" y="200" width="10" height="10" fill="#1F4D3D" opacity="0.5"/>
+          <rect x="302" y="200" width="10" height="10" fill="#1F4D3D" opacity="0.5"/>
+          <rect x="282" y="222" width="10" height="10" fill="#1F4D3D" opacity="0.5"/>
+          <rect x="302" y="222" width="10" height="10" fill="#1F4D3D" opacity="0.5"/>
+          <rect x="282" y="244" width="10" height="10" fill="#1F4D3D" opacity="0.5"/>
+          <rect x="302" y="244" width="10" height="10" fill="#1F4D3D" opacity="0.5"/>
+          <path d="M350 220 L394 178 L438 220 V335 H350 Z" fill="#FBF8F3" stroke="#1F4D3D" stroke-width="2.5" stroke-linejoin="round"/>
+          <rect x="378" y="270" width="32" height="65" fill="#1F4D3D" opacity="0.12"/>
+          <circle cx="90" cy="120" r="20" fill="none" stroke="#1F4D3D" stroke-width="2" opacity="0.3"/>
+          <circle cx="420" cy="130" r="14" fill="none" stroke="#FF6B4A" stroke-width="2" opacity="0.4"/>
+          <circle cx="240" cy="90" r="8" fill="#FF6B4A" opacity="0.3"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="landing-features">
+      <div class="feature-card">
+        <div class="feature-card__icon"><span data-icon="mapPin"></span></div>
+        <h3>Hyperlocal</h3>
+        <p>Browse listings from sellers in your own barangay — no shipping, just meet up nearby.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card__icon"><span data-icon="messageCircle"></span></div>
+        <h3>Chat directly</h3>
+        <p>Message sellers and buyers right in the app to arrange pickup, delivery, or details.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card__icon"><span data-icon="shoppingCart"></span></div>
+        <h3>Reserve with ease</h3>
+        <p>Secure an item with a downpayment, or pay in full — your choice, your terms.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HOME (logged in) ============ -->
+  <section class="screen" id="screen-home">
+    <div class="home-hero">
+      <div class="home-hero__copy">
+        <p class="eyebrow">Your barangay, online</p>
+        <h1 class="font-fraunces home-hero__headline">Find it nearby.<br>Sell it locally.</h1>
+        <p class="home-hero__sub">No clutter, no random posts — just items for sale, from people near you.</p>
+        <div class="home-hero__actions">
+          <button class="btn btn--coral btn--lg" data-nav="browse">Browse items</button>
+          <button class="btn btn--forest btn--lg" data-nav="post">Post an item</button>
+          <button class="btn btn--outline btn--lg" data-nav="trade"><span data-icon="recycle"></span> Trade item</button>
+        </div>
+      </div>
+      <div class="home-hero__art">
+        <svg width="100%" height="100%" viewBox="0 0 480 300" fill="none" preserveAspectRatio="xMidYMid meet">
+          <path d="M0 250 Q240 200 480 250 V300 H0 Z" fill="#F0E9DD"/>
+          <rect x="44" y="150" width="46" height="90" rx="3" fill="#FBF8F3" stroke="#1F4D3D" stroke-width="2.5"/>
+          <rect x="56" y="166" width="10" height="10" fill="#1F4D3D" opacity="0.5"/>
+          <rect x="72" y="166" width="10" height="10" fill="#1F4D3D" opacity="0.5"/>
+          <path d="M150 160 L182 132 L214 160 V236 H150 Z" fill="#FBF8F3" stroke="#1F4D3D" stroke-width="2.5" stroke-linejoin="round"/>
+          <rect x="174" y="196" width="16" height="40" fill="#FF6B4A" opacity="0.55"/>
+          <rect x="260" y="110" width="36" height="126" rx="3" fill="#FBF8F3" stroke="#1F4D3D" stroke-width="2.5"/>
+          <rect x="270" y="126" width="8" height="8" fill="#1F4D3D" opacity="0.5"/>
+          <rect x="284" y="126" width="8" height="8" fill="#1F4D3D" opacity="0.5"/>
+          <rect x="270" y="144" width="8" height="8" fill="#1F4D3D" opacity="0.5"/>
+          <rect x="284" y="144" width="8" height="8" fill="#1F4D3D" opacity="0.5"/>
+          <path d="M340 145 L374 113 L408 145 V236 H340 Z" fill="#FBF8F3" stroke="#1F4D3D" stroke-width="2.5" stroke-linejoin="round"/>
+          <rect x="362" y="180" width="24" height="56" fill="#1F4D3D" opacity="0.12"/>
+          <circle cx="70" cy="70" r="16" fill="none" stroke="#1F4D3D" stroke-width="2" opacity="0.3"/>
+          <circle cx="430" cy="80" r="11" fill="none" stroke="#FF6B4A" stroke-width="2" opacity="0.4"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="home-categories">
+      <h2 class="section-heading">Browse by category</h2>
+      <!-- Horizontally scrollable big-card row -->
+      <div class="category-scroll-row" id="home-category-scroll"></div>
+    </div>
+
+    <!-- Trending / Popular -->
+    <div class="home-section">
+      <div class="section-heading-row">
+        <h2 class="section-heading">Trending &amp; Popular</h2>
+        <button class="link-btn" data-nav="browse">See all →</button>
+      </div>
+      <div class="listing-grid" id="home-trending-grid"></div>
+    </div>
+
+    <!-- Brand New -->
+    <div class="home-section">
+      <div class="section-heading-row">
+        <h2 class="section-heading">Brand New</h2>
+        <button class="link-btn" id="home-browse-new-btn">See all →</button>
+      </div>
+      <div class="listing-grid" id="home-brandnew-grid"></div>
+    </div>
+
+    <!-- 2nd Hand / Pre-loved -->
+    <div class="home-section">
+      <div class="section-heading-row">
+        <h2 class="section-heading">Pre-loved / 2nd Hand</h2>
+        <button class="link-btn" id="home-browse-used-btn">See all →</button>
+      </div>
+      <div class="listing-grid" id="home-secondhand-grid"></div>
+    </div>
+
+    <!-- Trade -->
+    <div class="home-section">
+      <div class="section-heading-row">
+        <h2 class="section-heading">Open for Trade</h2>
+        <button class="link-btn" data-nav="trade">See all →</button>
+      </div>
+      <div class="listing-grid" id="home-trade-grid"></div>
+    </div>
+  </section>
+
+  <!-- ============ SIGN IN ============ -->
+  <section class="screen" id="screen-signin">
+    <div class="auth-split">
+      <div class="auth-split__art">
+        <div class="auth-split__art-inner">
+          <svg width="64" height="64" viewBox="0 0 40 40" fill="none">
+            <path d="M20 3 L36 14 V35 H4 V14 Z" stroke="#FBF8F3" stroke-width="2.5" fill="#FF6B4A" fill-opacity="0.35" stroke-linejoin="round"/>
+          </svg>
+          <h2 class="font-fraunces">Welcome back</h2>
+          <p>Log in to message sellers, post listings, and pick up where you left off.</p>
+        </div>
+      </div>
+      <div class="auth-split__form">
+        <div class="auth-form-card">
+          <h1 class="font-fraunces auth-form-card__title">Sign in</h1>
+          <form id="form-signin">
+            <div class="field">
+              <label>Email</label>
+              <input type="email" id="signin-email" placeholder="juan@example.com" required />
+              <p class="field-error" id="signin-email-error"></p>
+            </div>
+            <div class="field">
+              <label>Password</label>
+              <div class="field--password">
+                <input type="password" id="signin-password" placeholder="••••••••" required />
+                <button type="button" class="field-eye" data-toggle-pw="signin-password" data-icon="eye" aria-label="Toggle password visibility"></button>
+              </div>
+              <p class="field-error" id="signin-password-error"></p>
+            </div>
+            <button type="submit" class="btn btn--coral btn--block">Sign in</button>
+            <div class="divider"><span>or</span></div>
+            <button type="button" class="btn btn--forest btn--block" id="signin-guest">Continue as guest</button>
+          </form>
+          <p class="auth-switch">Don't have an account? <button data-nav="signup">Sign up</button></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SIGN UP ============ -->
+  <section class="screen" id="screen-signup">
+    <div class="auth-split">
+      <div class="auth-split__art">
+        <div class="auth-split__art-inner">
+          <svg width="64" height="64" viewBox="0 0 40 40" fill="none">
+            <path d="M20 3 L36 14 V35 H4 V14 Z" stroke="#FBF8F3" stroke-width="2.5" fill="#FF6B4A" fill-opacity="0.35" stroke-linejoin="round"/>
+          </svg>
+          <h2 class="font-fraunces">Join your barangay</h2>
+          <p>Create a free account to post listings, save items, and chat with neighbors.</p>
+        </div>
+      </div>
+      <div class="auth-split__form">
+        <div class="auth-form-card">
+          <h1 class="font-fraunces auth-form-card__title">Create account</h1>
+          <form id="form-signup">
+            <div class="field">
+              <label>Full name</label>
+              <input type="text" id="signup-name" placeholder="Juan Dela Cruz" required />
+              <p class="field-error" id="signup-name-error"></p>
+            </div>
+            <div class="field">
+              <label>Email</label>
+              <input type="email" id="signup-email" placeholder="juan@example.com" required />
+              <p class="field-error" id="signup-email-error"></p>
+            </div>
+            <div class="field">
+              <label>Barangay / Location</label>
+              <input type="text" id="signup-barangay" placeholder="e.g. Barangay San Antonio" required />
+              <p class="field-error" id="signup-barangay-error"></p>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label>Password</label>
+                <div class="field--password">
+                  <input type="password" id="signup-password" placeholder="••••••••" required />
+                  <button type="button" class="field-eye" data-toggle-pw="signup-password" data-icon="eye" aria-label="Toggle password visibility"></button>
+                </div>
+                <p class="field-error" id="signup-password-error"></p>
+              </div>
+              <div class="field">
+                <label>Confirm password</label>
+                <div class="field--password">
+                  <input type="password" id="signup-confirm" placeholder="••••••••" required />
+                  <button type="button" class="field-eye" data-toggle-pw="signup-confirm" data-icon="eye" aria-label="Toggle password visibility"></button>
+                </div>
+                <p class="field-error" id="signup-confirm-error"></p>
+              </div>
+            </div>
+            <button type="submit" class="btn btn--coral btn--block">Create account</button>
+          </form>
+          <p class="auth-switch">Already have an account? <button data-nav="signin">Sign in</button></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BROWSE (Buy + Trade tabs) ============ -->
+  <section class="screen" id="screen-browse">
+    <div class="page-header">
+      <h1 class="font-fraunces">Browse</h1>
+      <div class="browse-tabs" id="browse-tabs">
+        <button class="browse-tab active" data-browse-tab="buy">Buy</button>
+        <button class="browse-tab" data-browse-tab="trade">Trade</button>
+      </div>
+    </div>
+
+    <!-- BUY panel -->
+    <div id="browse-buy-panel">
+      <p id="browse-count" class="browse-panel-count">0 items near you</p>
+      <div class="browse-layout">
+        <aside class="browse-sidebar">
+          <div class="searchbar">
+            <span data-icon="search" class="searchbar__icon"></span>
+            <input type="text" id="browse-search" placeholder="Search items…" />
+          </div>
+          <h3 class="browse-sidebar__title">Categories</h3>
+          <div class="category-list" id="browse-categories"></div>
+        </aside>
+        <div class="browse-content">
+          <div class="chip-row" id="browse-chips"></div>
+          <div class="browse-condition-tabs" id="browse-condition-tabs"></div>
+          <div class="listing-grid" id="browse-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRADE panel -->
+    <div id="browse-trade-panel" hidden>
+      <p id="trade-count" class="browse-panel-count">0 items open for trade</p>
+      <div class="browse-layout">
+        <aside class="browse-sidebar">
+          <div class="searchbar">
+            <span data-icon="search" class="searchbar__icon"></span>
+            <input type="text" id="trade-search" placeholder="Search trade items…" />
+          </div>
+          <h3 class="browse-sidebar__title">Categories</h3>
+          <div class="category-list" id="trade-categories"></div>
+          <div class="trade-sidebar-action">
+            <button class="btn btn--forest btn--block" id="trade-my-trades-btn">My trade requests</button>
+          </div>
+        </aside>
+        <div class="browse-content">
+          <div class="chip-row" id="trade-chips"></div>
+          <div class="trade-info-banner" id="trade-info-banner">
+            <span data-icon="recycle"></span>
+            <span>Items marked <strong>Open for Trade</strong> appear here. When you post an item, enable the "Open for trade" toggle to list it here.</span>
+          </div>
+          <div class="listing-grid" id="trade-list"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ITEM DETAILS ============ -->
+  <section class="screen" id="screen-item">
+    <div class="item-layout" id="item-layout"></div>
+  </section>
+
+  <!-- ============ PUBLIC USER PROFILE ============ -->
+  <section class="screen" id="screen-user">
+    <div id="user-profile-page"></div>
+  </section>
+
+  <!-- ============ REPORT ITEM ============ -->
+  <section class="screen" id="screen-report">
+    <div id="report-page"></div>
+  </section>
+
+  <!-- ============ POST ITEM ============ -->
+  <section class="screen" id="screen-post">
+    <div class="form-page">
+      <div class="page-header page-header--narrow">
+        <h1 class="font-fraunces">Post an item</h1>
+        <p>Fill in the details below — it only takes a minute.</p>
+      </div>
+      <form class="form-card" id="form-post">
+        <div class="field">
+          <label>Item name</label>
+          <input type="text" id="post-title" placeholder="e.g. Handmade Tote Bag" required />
+        </div>
+        <div class="field">
+          <label>Description</label>
+          <textarea id="post-description" rows="4" placeholder="Describe the item's condition, size, materials…" required></textarea>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Price (₱)</label>
+            <input type="number" id="post-price" placeholder="0.00" min="0" step="0.01" required />
+          </div>
+          <div class="field">
+            <label>Location</label>
+            <input type="text" id="post-location" placeholder="Barangay" required />
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="post-stock">Stock quantity</label>
+            <input type="number" id="post-stock" min="1" step="1" value="1" required />
+            <p class="field-help">Buyers can only choose up to this quantity.</p>
+          </div>
+          <div></div>
+        </div>
+        <div class="field">
+          <label for="post-image">Item image</label>
+          <input type="file" id="post-image" accept="image/*" />
+          <p class="field-help">Upload one clear photo of the item.</p>
+          <div class="image-preview" id="post-image-preview">
+            <div class="image-preview__placeholder">
+              <p class="image-preview__title">No image selected</p>
+              <p class="image-preview__sub">Upload one clear photo of the item.</p>
+            </div>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="post-category">Category</label>
+            <select id="post-category" required>
+              <option value="">Select a category</option>
+              <option>Food &amp; Drinks</option>
+              <option>Devices &amp; Electronics</option>
+              <option>Clothes &amp; Fashion</option>
+              <option>Crafts &amp; Handmade</option>
+              <option>Pre-loved Items</option>
+              <option>Services</option>
+              <option>Home &amp; Living</option>
+              <option>Books &amp; School</option>
+              <option>Sports &amp; Outdoors</option>
+              <option>Beauty &amp; Health</option>
+              <option>Toys &amp; Kids</option>
+              <option>Vehicles &amp; Parts</option>
+              <option>Pet Supplies</option>
+              <option>Agriculture &amp; Plants</option>
+            </select>
+          </div>
+          <div></div>
+        </div>
+        <div class="toggle-row">
+          <div>
+            <p class="toggle-row__title">Pre-loved / 2nd Hand item</p>
+            <p class="toggle-row__sub">Mark this as a used or previously owned item</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="post-is-second-hand" aria-label="Pre-loved or 2nd Hand item" />
+            <span class="switch__track"><span class="switch__thumb"></span></span>
+          </label>
+        </div>
+        <div class="toggle-row">
+          <div>
+            <p class="toggle-row__title">Allow reservations</p>
+            <p class="toggle-row__sub">Buyers can downpay to hold this item</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="post-allow-reservations" aria-label="Allow reservations" checked />
+            <span class="switch__track"><span class="switch__thumb"></span></span>
+          </label>
+        </div>
+        <div class="toggle-row toggle-row--trade">
+          <div>
+            <p class="toggle-row__title">Open for trade</p>
+            <p class="toggle-row__sub">List this as a barter item instead of (or in addition to) selling it</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="post-open-for-trade" aria-label="Open for trade" />
+            <span class="switch__track"><span class="switch__thumb"></span></span>
+          </label>
+        </div>
+        <div class="field post-trade-for-field" id="post-trade-for-field">
+          <label>What would you trade this for?</label>
+          <input type="text" id="post-trade-for" placeholder="e.g. PS4 games, kitchen appliances, bike parts" />
+          <p class="field-help">Shown to other traders browsing the Trading tab.</p>
+        </div>
+        <div class="availability-grid">
+          <div class="toggle-row">
+            <div>
+              <p class="toggle-row__title">Meet-up available</p>
+              <p class="toggle-row__sub">Let buyers meet you in person</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="post-meetup-available" aria-label="Meet-up available" checked />
+              <span class="switch__track"><span class="switch__thumb"></span></span>
+            </label>
+          </div>
+          <div class="toggle-row">
+            <div>
+              <p class="toggle-row__title">Delivery available</p>
+              <p class="toggle-row__sub">Allow courier shipping for this item</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="post-delivery-available" aria-label="Delivery available" checked />
+              <span class="switch__track"><span class="switch__thumb"></span></span>
+            </label>
+          </div>
+        </div>
+        <button type="submit" class="btn btn--coral btn--block btn--lg" id="post-submit-btn">Submit listing</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============ RESERVATION ============ -->
+  <section class="screen" id="screen-reservation">
+    <div class="page-header page-header--narrow">
+      <button class="link-btn" id="reservation-back-btn">← Back to item</button>
+      <h1 class="font-fraunces">Reservation</h1>
+    </div>
+    <div class="reservation-layout" id="reservation-layout"></div>
+  </section>
+
+  <!-- ============ CONFIRMATION ============ -->
+  <section class="screen" id="screen-confirmation">
+    <div class="confirmation-page" id="confirmation-page"></div>
+  </section>
+
+  <!-- ============ ORDERS ============ -->
+  <section class="screen" id="screen-orders">
+    <div id="orders-page"></div>
+  </section>
+
+  <!-- ============ PROFILE ============ -->
+  <section class="screen" id="screen-profile">
+    <div class="profile-me-layout">
+      <div class="profile-me-main" id="profile-sidebar"></div>
+      <div class="profile-me-content" id="profile-body"></div>
+    </div>
+  </section>
+
+  <!-- ============ ADMIN DASHBOARD ============ -->
+  <section class="screen" id="screen-admin">
+    <div id="admin-page"></div>
+  </section>
+
+  <!-- ============ SAVED ITEMS ============ -->
+  <section class="screen" id="screen-saved">
+    <div class="page-header">
+      <h1 class="font-fraunces">Saved items</h1>
+      <p>Items you've saved for later</p>
+    </div>
+    <div class="listing-grid" id="saved-list"></div>
+  </section>
+
+  <!-- ============ MESSAGES (Inbox) ============ -->
+  <section class="screen" id="screen-inbox">
+    <div class="page-header">
+      <h1 class="font-fraunces">Messages</h1>
+      <p>Your conversations with buyers and sellers</p>
+    </div>
+    <div class="inbox-list" id="inbox-list"></div>
+  </section>
+
+  <!-- ============ CHAT ============ -->
+  <section class="screen" id="screen-chat">
+    <div class="chat-page">
+      <button class="link-btn chat-page__back" data-nav="inbox">← Back to messages</button>
+      <div class="chat-card">
+        <div class="chat-header" id="chat-header"></div>
+        <div class="chat-messages" id="chat-messages"></div>
+        <div class="chat-input-row">
+          <input type="text" id="chat-input" placeholder="Message…" />
+          <button class="chat-send" id="chat-send-btn" aria-label="Send" data-icon="send"></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ NOTIFICATIONS ============ -->
+  <section class="screen" id="screen-notifications">
+    <div id="notifications-page"></div>
+  </section>
+
+  <!-- ============ NOT FOUND ============ -->
+  <section class="screen" id="screen-notfound">
+    <div class="notfound-page">
+      <h2 class="font-fraunces">Page not found</h2>
+      <p>That page doesn't exist.</p>
+      <button class="btn btn--coral" data-nav="home">Back to home</button>
+    </div>
+  </section>
+
+  <!-- ============ SETTINGS ============ -->
+  <section class="screen" id="screen-settings">
+    <div id="settings-page"></div>
+  </section>
+
+  <!-- ============ MY TRADES ============ -->
+  <section class="screen" id="screen-mytrades">
+    <div id="mytrades-page"></div>
+  </section>
+
+</main>
+
+<!-- ============ CONFIRM MODAL ============ -->
+<div class="modal-overlay" id="confirm-modal" hidden>
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-icon" id="modal-icon"></div>
+    <h3 class="modal-title font-fraunces" id="modal-title">Are you sure?</h3>
+    <p class="modal-body" id="modal-body"></p>
+    <div class="modal-actions">
+      <button class="btn btn--outline" id="modal-cancel-btn">Cancel</button>
+      <button class="btn" id="modal-confirm-btn">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <p>© 2026 Local Connect. Buy, sell, and meet your barangay.</p>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script src="icons.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
